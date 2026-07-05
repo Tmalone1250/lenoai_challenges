@@ -2,6 +2,9 @@
 
 Welcome to your first Web3 challenge in the Leno AI ecosystem! Your task is to complete the deployment and security logic for the `LenoToken` smart contract. Earning this passing grade will trigger the webhook to stamp your passport in the portal.
 
+> [!IMPORTANT]
+> **Before you begin coding**, please read `INSTRUCTIONS.md` for your exact mission objectives and smart contract specifications!
+
 ## 🛠️ Step 1: Environment Setup
 
 Before you can write code, you need to set up your local workspace. Ensure you have [Foundry](https://book.getfoundry.sh/getting-started/installation) installed on your machine.
@@ -20,14 +23,9 @@ Before you can write code, you need to set up your local workspace. Ensure you h
    git checkout -b challenge/genesis-token
    ```
 
-## 🎯 Step 2: The Mission
+## 📖 Step 2: Read Your Mission Instructions
 
-Open the workspace in your code editor. Your Objectives are to fix the broken logic in the smart contract:
-
-1. **Open `contracts/LenoToken.sol`.**
-2. **Fix the constructor** so the token initializes with the name `Leno Token` and symbol `LNCOIN`.
-3. **Secure the `mint` function** by completing the modifier logic so that only the contract owner can mint new supply.
-4. **Implement the `burn` function body** so users can destroy their own tokens.
+Open `INSTRUCTIONS.md` (located in this directory) to view your specific coding objectives, contract requirements, and security rules.
 
 ## 🧪 Step 3: Local Validation
 
