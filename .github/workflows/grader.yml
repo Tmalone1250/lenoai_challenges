@@ -25,12 +25,14 @@ jobs:
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
 
-      - name: Run Forge Tests
+      - name: Run Tests with Verbosity
         id: test
         continue-on-error: true
         run: |
+          # The -vvvv flag will show you EXACTLY what the test is seeing
+          # This will print the actual deployer address and balances in the logs
           set +e
-          LOGS=$(forge test -vvv 2>&1)
+          LOGS=$(forge test -vvvv 2>&1)
           EXIT_CODE=$?
           set -e
           
@@ -41,6 +43,7 @@ jobs:
           fi
           
           echo "$LOGS" > test_logs.txt
+          echo "$LOGS" > test_output.log
           echo "Test execution completed with exit code: $EXIT_CODE"
 
       - name: Send Webhook to Reviewer Agent
