@@ -16,10 +16,15 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  */
 contract LenoToken is ERC20, Ownable {
 
+    error NotAuthorized();
+    
     // TODO 2: Fix this modifier! Currently, it is left open and allows ANYONE to mint tokens.
     // Restrict access so that only the owner (or authorized deployer) can call functions using this modifier.
     modifier onlyAuthorized() {
         // [INCOMPLETE] Add access control check here (e.g. require(msg.sender == owner(), "Not authorized");)
+        if (msg.sender != owner()) {
+            revert NotAuthorized();
+        }
         _;
     }
 
@@ -28,9 +33,9 @@ contract LenoToken is ERC20, Ownable {
      * Pass "Leno Token" and "LNCOIN" to the ERC20 constructor.
      * Mint an initial supply of 1,000,000 tokens (with 18 decimals) to the deployer (msg.sender).
      */
-    constructor() ERC20("", "") Ownable(msg.sender) {
+    constructor() ERC20("Leno Token", "LNCOIN") Ownable(msg.sender) {
         // [INCOMPLETE] Call _mint(...) here:
-        // _mint(..., ...);
+        _mint(msg.sender, 1000000 * 10 ** decimals());
     }
 
     /**
@@ -47,6 +52,6 @@ contract LenoToken is ERC20, Ownable {
      */
     function burn(uint256 amount) external {
         // [INCOMPLETE] Implement token burning logic here using _burn:
-        
+        _burn(msg.sender, amount);
     }
 }
