@@ -1,0 +1,14 @@
+# Foundry build artifacts
+out/
+cache/
+
+# Dependencies (if using npm/pnpm setup)
+node_modules/
+
+# Local environment variables
+.env
+.env.local
+
+# IDE configurations
+.vscode/
+.idea/

@@ -1,1 +1,0 @@
-# lenoai_challenges

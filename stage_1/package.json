@@ -1,0 +1,12 @@
+{
+  "name": "lenoai-challenge-genesis-token",
+  "version": "1.0.0",
+  "description": "Challenge: My First Leno Token (ERC-20)",
+  "scripts": {
+    "test": "forge test",
+    "build": "forge build"
+  },
+  "keywords": ["leno", "web3", "erc20", "foundry"],
+  "author": "Leno Guild",
+  "license": "MIT"
+}
