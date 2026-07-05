@@ -35,7 +35,7 @@ contract LenoToken is ERC20, Ownable {
      */
     constructor() ERC20("Leno Token", "LNCOIN") Ownable(msg.sender) {
         // [INCOMPLETE] Call _mint(...) here:
-        _mint(msg.sender, 100000 * 10 ** decimals());
+        _mint(msg.sender, 1000000 * 10 ** decimals());
     }
 
     /**
