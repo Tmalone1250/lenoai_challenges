@@ -14,9 +14,9 @@ Before you can write code, you need to set up your local workspace. Ensure you h
    ```bash
    git clone --recursive https://github.com/YOUR_USERNAME/lenoai_challenges.git
    ```
-3. **Navigate into the stage 1 directory:**
+3. **Navigate into the repository directory:**
    ```bash
-   cd lenoai_challenges/stage_1
+   cd lenoai_challenges
    ```
 4. **Create a new branch named `challenge/genesis-token`:**
    ```bash

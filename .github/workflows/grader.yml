@@ -1,0 +1,64 @@
+name: Genesis Token Grader
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'contracts/LenoToken.sol'
+
+jobs:
+  grade:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: The Immutable Test Override
+        run: |
+          # Forcefully discard any modifications the user made to the test suite
+          # and replace them with the canonical tests from the main branch.
+          git checkout origin/main -- test/
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
+      - name: Run Forge Tests
+        id: test
+        continue-on-error: true
+        run: |
+          set +e
+          LOGS=$(forge test -vvv 2>&1)
+          EXIT_CODE=$?
+          set -e
+          
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo "passed=true" >> $GITHUB_OUTPUT
+          else
+            echo "passed=false" >> $GITHUB_OUTPUT
+          fi
+          
+          echo "$LOGS" > test_logs.txt
+          echo "Test execution completed with exit code: $EXIT_CODE"
+
+      - name: Send Webhook to Reviewer Agent
+        env:
+          WEBHOOK_URL: ${{ secrets.REVIEWER_WEBHOOK_URL || 'https://nursery-imbecile-chewable.ngrok-free.dev/sandbox-results' }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PASSED: ${{ steps.test.outputs.passed }}
+          REPO_FULL_NAME: ${{ github.repository }}
+        run: |
+          sudo apt-get update && sudo apt-get install -y jq
+          PAYLOAD=$(jq -n \
+            --argjson pr_number "$PR_NUMBER" \
+            --argjson passed "$PASSED" \
+            --arg repo_full_name "$REPO_FULL_NAME" \
+            --rawfile logs test_logs.txt \
+            '{pr_number: $pr_number, passed: $passed, repo_full_name: $repo_full_name, logs: $logs}')
+          
+          # Ensure URL points to /sandbox-results even if secret was configured with /github-webhook
+          TARGET_URL=$(echo "$WEBHOOK_URL" | sed 's/\/github-webhook$/\/sandbox-results/')
+          echo "Sending sandbox evaluation results to $TARGET_URL..."
+          curl -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$TARGET_URL"
