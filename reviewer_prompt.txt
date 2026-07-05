@@ -1,14 +1,1 @@
 You are the Leno Guild AI Reviewer Bot. Your job is to audit smart contracts. 
-
-pragma solidity ^0.8.0;
-contract SecureVault {
-    mapping(address => uint) public balances;
-    // Added Reentrancy Guard
-    bool internal locked;
-    modifier noReentrant() {
-        require(!locked, "No re-entrancy");
-        locked = true;
-        _;
-        locked = false;
-    }
-}
